@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-if="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns: xmlns: xmlns:>
 <head>
     <meta charset="UTF-8">
     <title>Maison Dev</title>
+    <link rel="stylesheet" href="css/product_style.css">
 </head>
 <body>
+<div class="nav-bar"></div>
+    <header id="app">
+        <div class="produto">
+            <a v-bind:href="urlDaImagem">Imagem de fundo</a>
+            <div class="imagem-produto">
+                <img v-bind:src="imagem" v-bind:alt="descricaoImagem"/>
+            </div>
+            <div class="informacoes-produto">
 
-<h1>Hello World</h1>
+                <h2>{{produto}}</h2>
+                <p> {{descricao}}</p>
+                <ul>
+                    <li v-for="detalhe in detalhes">{{detalhe}}</li>
+                </ul>
+                <p v-if="inventario>=5"> No Estoque </p>
+                <p v-else-if="inventario>0 && inventario<=5"> Ultimas unidades </p>
+                <p v-else-if="inventario==0" :class="{semEstoque:!noEstoque}"> Sem estoque </p>
 
+                <div v-for="variante in variantes" :key="variante.varianteId" class="color-box" :style="{backgroundColor:variante.varianteCor}">
+                    <p @mouseover="atualizaProduto(variante.varianteImagem)">{{variante.varianteCor}}</p>
+                </div>
+
+                <div class="carrinho">
+                    <p>Carrinho ({{carrinho}})</p>
+                    <button @click="removeCarrinho" :disabled="carrinho<1">Remover do carrinho</button>
+                </div>
+                <button v-on:click="adicionaCarrinho" :disabled="!noEstoque" :class="{disabledButton: !noEstoque}">Adiconar ao carrinho</button>
+
+            </div>
+        </div>
+    </header>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
